@@ -121,7 +121,7 @@
   {
     "country":"Iceland",
     "filename":"IcelandHolidays.ics",
-    "datespan":"2008-2020",
+    "datespan":"2021-2060",
     "authors":"Kristjan Bjarni Gudmundsson"
   },
   {
@@ -204,8 +204,8 @@
   {
     "country":"Poland",
     "filename":"PolishHolidays.ics",
-    "datespan":"2009-2020",
-    "authors":"Damian Szczepanik"
+    "datespan":"2015-2030",
+    "authors":"Artur Majcherczak"
   },
   {
     "country":"Portugal",
@@ -218,6 +218,18 @@
     "filename":"RussiaHolidays.ics",
     "datespan":"2010-2020",
     "authors":"Alexander L. Slovesnik"
+  },
+  {
+    "country":"Singapore",
+    "filename":"SingaporePublicHolidays-2021.ics",
+    "datespan":"2021",
+    "authors":"Singapore Ministry of Manpower"
+  },
+  {
+    "country":"Singapore",
+    "filename":"SingaporePublicHolidays-2022.ics",
+    "datespan":"2022",
+    "authors":"Singapore Ministry of Manpower"
   },
   {
     "country":"Slovenia",
