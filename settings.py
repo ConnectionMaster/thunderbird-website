@@ -210,7 +210,7 @@ URL_MAPPINGS = {
     'privacy.notices.thunderbird': 'https://www.mozilla.org/privacy/thunderbird/',
     'support': 'https://support.mozilla.org/products/thunderbird/',
     'thunderbird.about': '/about',
-    'thunderbird.about.our-mission-statement': '/about#our-mission-statement',
+    'thunderbird.about.our-mission-statement': '/about/mission-statement',
     'thunderbird.bugzilla.new-bug': 'https://bugzilla.mozilla.org/enter_bug.cgi?product=Thunderbird',
     'thunderbird.calendar.holiday': '/calendar/holidays',
     'thunderbird.careers': '/careers',
@@ -247,6 +247,8 @@ URL_MAPPINGS = {
     'thunderbird.social.linkedin': 'https://www.linkedin.com/company/thunderbird-email/',
     'thunderbird.social.mastodon': 'https://mastodon.online/@thunderbird',
     'thunderbird.115.whatsnew': '/thunderbird/115.0/whatsnew',
+    'thunderbird.128.whatsnew': '/thunderbird/128.0/whatsnew',
+    'thunderbird.128esr.releasenotes': '/thunderbird/128.0esr/releasenotes',
 }
 
 BLOG_FEED_URL = 'https://blog.thunderbird.net/feed/atom/'
@@ -485,4 +487,15 @@ CALENDAR_REMAP = {
 }
 
 # Filter out specific versions for the release notes page
-VERSIONS_TO_FILTER = ["125.0", "126.0", "127.0"]
+VERSIONS_TO_FILTER = ["125.0", "126.0", "127.0", "129.0"]
+
+# Old path (excluding locale) -> helper.url key
+WEBSITE_REDIRECTS = {
+    'download': 'thunderbird.latest.all',
+    ('download', 'beta'): 'thunderbird.latest.beta',
+    'get-involved': 'thunderbird.participate',
+    'contribute': 'thunderbird.participate',
+    'features': 'thunderbird.index',
+    ('thunderbird', '128.0esr', 'whatsnew'): 'thunderbird.128.whatsnew',
+    ('thunderbird', '128.0', 'releasenotes'): 'thunderbird.128esr.releasenotes',
+}

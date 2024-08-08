@@ -17,6 +17,10 @@
   <link href="{{ static('css/whatsnew-128.css') }}" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
+{% macro svg_img(file_name, alt_text='') %}
+<img src="{{ static('svg/{file_name}.svg'.format(file_name=file_name)) }}" alt="{{ alt_text }}"/>
+{% endmacro %}
+
 {% block content %}
   <div class="main-content">
     <div class="overlay"></div>
@@ -28,7 +32,7 @@
           {{ svg_img('appeal/whatsnew-128/space-things') }}
         </div>
         <div class="screenshot-128">
-          {{ high_res_img('thunderbird/appeal/whatsnew-128/128-screenshot.png', {'alt': _('')}, alt_formats=('avif', 'webp')) }}
+          {{ high_res_img('thunderbird/appeal/whatsnew-128/128-screenshot.png', {'alt': ''}, alt_formats=('avif', 'webp')) }}
         </div>
       </div>
       <div class="nebula-branding" aria-label="{{ _('Thunderbird 128 Nebula') }}">
@@ -50,7 +54,7 @@
       </div>
 
       <div class="non-carousel-carousel">
-        {{ high_res_img('thunderbird/appeal/whatsnew-128/non-carousel-carousel.png', {'alt': _('')}, alt_formats=('avif', 'webp')) }}
+        {{ high_res_img('thunderbird/appeal/whatsnew-128/non-carousel-carousel.png', {'alt': ''}, alt_formats=('avif', 'webp')) }}
       </div>
     </section>
 
@@ -66,10 +70,7 @@
           {% endtrans %}
         </p>
       </section>
-      <aside class="picture rocket" aria-hidden="true">
-        {{ svg_img('appeal/whatsnew-128/fast-and-fluid-rocket') }}
-        {{ svg_img('appeal/whatsnew-128/fast-and-fluid-stars') }}
-      </aside>
+      <aside class="picture rocket" aria-hidden="true"></aside>
     </div>
 
     <div class="cards-view two-column flipped">
@@ -88,7 +89,7 @@
         </p>
       </section>
       <aside class="picture with-frame">
-        {{ high_res_img('thunderbird/appeal/whatsnew-128/cards-view.png', {'alt': _('')}, alt_formats=('avif', 'webp')) }}
+        {{ high_res_img('thunderbird/appeal/whatsnew-128/cards-view.png', {'alt': ''}, alt_formats=('avif', 'webp')) }}
       </aside>
     </div>
 
@@ -107,7 +108,7 @@
         </p>
       </section>
       <aside class="picture with-frame">
-        {{ high_res_img('thunderbird/appeal/whatsnew-128/accent-colors-items.png', {'alt': _('')}, alt_formats=('avif', 'webp')) }}
+        {{ high_res_img('thunderbird/appeal/whatsnew-128/accent-colors-items.png', {'alt': ''}, alt_formats=('avif', 'webp')) }}
       </aside>
     </div>
 
@@ -125,8 +126,8 @@
           {% endtrans %}
         </p>
       </section>
-      <aside class="picture" aria-hidden="true">
-        {{ svg_img('appeal/whatsnew-128/folder-pane') }}
+      <aside class="picture with-frame">
+        {{ high_res_img('thunderbird/appeal/whatsnew-128/folder-pane.png', {'alt': ''}, alt_formats=('avif', 'webp')) }}
       </aside>
     </div>
 
@@ -142,10 +143,10 @@
           {% endtrans %}
         </p>
       </section>
-      <aside class="picture" aria-hidden="true">
-        {{ svg_img('appeal/whatsnew-128/rust-gears') }}
-      </aside>
     </section>
+    <aside class="right-wrap" aria-hidden="true">
+        {{ high_res_img('thunderbird/appeal/whatsnew-128/rust-gears.png', {'alt': ''}, alt_formats=('avif', 'webp')) }}
+    </aside>
   </div>
   <div class="pre-footer">
     <section class="streamlined-menu full-width">

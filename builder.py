@@ -29,6 +29,7 @@ from jinja2 import Environment, FileSystemLoader
 from libs.thunderbird_notes import releasenotes
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import urllib.parse
 
 extensions = ['jinja2.ext.i18n']
 
@@ -51,6 +52,17 @@ def mkdir(path):
     except OSError as exception:
         if exception.errno != errno.EEXIST:
             raise
+
+
+def write_site_htaccess(renderpath: str, lang: str, redirects: dict):
+    """Writes .htaccess files from a given redirects dictionary for the given language."""
+    for path, url_key in redirects.items():
+        # Normalize non-tuples
+        if type(path) is not tuple:
+            path = (path,)
+        path = os.path.join(renderpath, lang, *path)
+        redirect_path = helper.url({'LANG': lang}, url_key)
+        write_htaccess(path, redirect_path)
 
 
 def write_htaccess_custom(path, rules: str):
@@ -229,6 +241,8 @@ class Site(object):
         feed_items = []
         for k, n in notelist.items():
             is_beta = 'beta' in k
+            is_115_esr = k.startswith('115.') and k.endswith('esr')
+
             if is_beta:
                 self._env.globals.update(channel='Beta', channel_name='Beta')
             else:
@@ -249,6 +263,14 @@ class Site(object):
             sysreq_template = self._env.get_template('includes/_enonly/system_requirements.html')
             logger.info("Rendering {0}/index.html...".format(target))
             sysreq_template.stream().dump(os.path.join(target, 'index.html'))
+
+            # 115 swapped to esr midway through. So add an 115 alias for 115esr builds
+            if is_115_esr:
+                for path in ['releasenotes', 'system-requirements']:
+                    k_noesr = k.replace('esr', '')
+                    source = os.path.join(self.outpath, 'thunderbird', str(k_noesr), path)
+                    mkdir(source)
+                    write_htaccess(source, urllib.parse.urljoin(settings.CANONICAL_URL, f'thunderbird/{str(k)}/{path}'))
 
             # Add entry to our feed items, optionally filter out beta notes
             if not is_beta or (is_beta and settings.SHOW_BETA_NOTES_IN_RSS_FEED):
@@ -433,26 +455,7 @@ class Site(object):
             self.render()
             write_404_htaccess(self.outpath, self.lang)
 
-            # Write download page redirect
-            downloads_path = os.path.join(self.renderpath, self.lang, 'download')
-            all_releases_path = helper.url({'LANG': lang}, 'thunderbird.latest.all')
-            beta_releases_path = helper.url({'LANG': lang}, 'thunderbird.latest.beta')
-            htaccess_rule = [
-                'RewriteEngine On',
-                f'RewriteRule download/beta {beta_releases_path} [L]',  # Stop testing if we get a hit on the beta rule
-                f'RewriteRule .* {all_releases_path}',
-            ]
-            write_htaccess_custom(downloads_path, "\n".join(htaccess_rule))
-
-            # Write get-involved page redirect
-            get_involved_path = os.path.join(self.renderpath, self.lang, 'get-involved')
-            os.makedirs(get_involved_path, exist_ok=True)
-            write_htaccess(get_involved_path, helper.url({'LANG': self.lang}, 'thunderbird.participate'))
-
-            # Write contribute page redirect
-            contribute_path = os.path.join(self.renderpath, self.lang, 'contribute')
-            os.makedirs(contribute_path, exist_ok=True)
-            write_htaccess(contribute_path, helper.url({'LANG': self.lang}, 'thunderbird.participate'))
+            write_site_htaccess(self.renderpath, self.lang, settings.WEBSITE_REDIRECTS)
 
             if lang == 'en-US':
                 # 404 page for root accesses outside lang dirs.
